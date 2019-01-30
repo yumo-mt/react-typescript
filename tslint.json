@@ -39,7 +39,6 @@
         "typedef": [true, "property-declaration"],
         "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"],
         "max-classes-per-file": false,
-        // tslint-react
         "jsx-no-lambda": false,
         "jsx-no-multiline-js": false,
         "jsx-curly-spacing": [true, { "when": "never", "allowMultiline": false }],

@@ -1,47 +1,56 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { HashRouter, Switch, Route,NavLink } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
+import { Layout } from 'antd';
+import NavMenu from './nav/index'
 import PageA from './views/PageA';
 import PageB from './views/PageB';
 import PageC from './views/PageC';
-// import * as styles from './style.css'
 
+import * as style from './style.css';
 
-const leftNav = () => {
-  return (
-    <nav>
-      <ul>
-        <li><NavLink activeStyle={{ color: 'blue' }} to="/pageA">com1</NavLink></li>
-        <li><NavLink activeStyle={{ color: 'blue' }} to="/pageB">com2</NavLink></li>
-        <li><NavLink activeStyle={{ color: 'blue' }} to="/pageC">com3</NavLink></li>
-      </ul>
-    </nav>
-  )
-};
+const { Header, Content } = Layout;
+ 
 
+interface IState {
+  collapsed: boolean
+}
+class App extends React.Component<object, IState> {
+  state = {
+    collapsed: false
+  }
 
-class App extends React.Component {
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
   render() {
+    console.log(this.state.collapsed);
+    
     return (
       <HashRouter>
         <Route render={({ location }) => (
-          <div>
-            <div>
-              {leftNav()}
-              <hr />
-            </div>
-            <div>
-              <div key={location.pathname}>
+          <Layout className={style.home}>
+            <NavMenu collapsed={this.state.collapsed} />
+            <Layout>
+              <Header style={{ background: '#fff', paddingLeft: '15px' }}>
+              </Header>
+              <Content style={{
+                margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
+              }}
+              >
                 <Switch key={location.key} location={location}>
                   <Route exact path="/" component={PageA} />
                   <Route exact path="/pageA" component={PageA} />
                   <Route exact path="/pageB" component={PageB} />
                   <Route exact path="/pageC" component={PageC} />
                 </Switch>
-              </div>
-            </div>
-          </div>
-        )} />
+              </Content>
+            </Layout>
+          </Layout>
+        )} 
+        />
       </HashRouter>
     )
   }
