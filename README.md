@@ -25,5 +25,5 @@ webpack 中 rule 需要使用 typings-for-css-modules-loader 来进行编译
     },
 
 ```
-导入方式改为 `import * as './styles.css'`
+导入方式改为 `import * as style './styles.css'`
 
