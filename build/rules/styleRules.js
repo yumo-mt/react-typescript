@@ -49,6 +49,17 @@ module.exports = [
         ]
     },
     {
+        test: /\.scss$/,
+        include: [resolve('src')],
+        use: [
+            config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader',
+            cacheLoader,
+            typingsForCssModulesLoader,
+            'postcss-loader',
+            sassLoader
+        ]
+    },
+    {
         test: /\.less$/,
         rules: [
             {
