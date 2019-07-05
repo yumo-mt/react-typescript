@@ -1,8 +1,9 @@
 import * as React from 'react'
+import ImmutableComponent from './immutable';
 
 class PageC extends React.Component {
     render() {
-        return <h1>PageC</h1>
+        return <ImmutableComponent></ImmutableComponent>
     }
 }
 

@@ -1,55 +1,109 @@
 import * as React from 'react'
+import { fromJS, Map, List, is } from 'immutable'
 import { Button } from 'antd'
-import * as moment from 'moment'
+import Immer from './Immer';
 
 import * as style from './style.css'
 
-import * as style2 from './index.scss'
-
-import JsDemo from './JS'
-
-type item = {
-    id: number;
-    name: string;
-    onChange(): void;
+interface IdCardProps {
+    weapons: string
+    name: string
 }
 
-interface IProps {
-    list: item[],
-}
-
-class List extends React.Component<IProps, object> {
+class IdCard extends React.Component<IdCardProps, {}> {
+    constructor(props) {
+        super(props)
+        this.state = {
+        }
+    }
+    shouldComponentUpdate(nextProps = {}, nextState = {}) {
+        const thisProps = this.props || {}, thisState = this.state || {}
+        if (Object.keys(thisProps).length !== Object.keys(nextProps).length ||
+            Object.keys(thisState).length !== Object.keys(nextState).length) {
+            return true
+        }
+        for (const key in nextProps) {
+            if (!is(thisProps[key], nextProps[key])) {
+                return true
+            }
+        }
+        for (const key in nextState) {
+            if (thisState[key] !== nextState[key] || !is(thisState[key], nextState[key])) {
+                return true
+            }
+        }
+        return false
+    }
 
     render() {
-        const { list } = this.props
-        console.log(list)
+        console.log('id-cord-render')
+        const { name = '', weapons = '' } = this.props
         return (
-            list.map((i, idx) => {
-                return (
-                    <React.Fragment key={idx}>
-                        <div key={idx}>{i.id}</div>
-                        <Button type="primary" onClick={i.onChange}>{i.name}</Button>
-                    </React.Fragment>
-                )
-            })
-        )
-
+            <div className={style.border}>
+                <div>name:{name}</div>
+                <div>weapons:{weapons}</div>
+            </div>)
     }
 }
 
-class PageA extends React.Component {
-    change = () => {
+interface IimmList {
+    weapons: string
+    name: string
+}
+interface IState {
+    list: List<IimmList>
+}
+
+class PageA extends React.Component<{}, IState> {
+    constructor(props) {
+        super(props)
+        this.state = {
+            list: List([{
+                name: 'Tony Stark',
+                weapons: 'mk'
+            }, {
+                name: 'Steve Rogers',
+                weapons: 'shield'
+            }, {
+                name: 'Thor',
+                weapons: 'hammer'
+            }, {
+                name: 'Natasha Romanova',
+                weapons: 'beautiful'
+            }])
+        }
+    }
+    public change = () => {
+        const random = Math.round(Math.random() * 3)
+        const list = this.state.list
+        console.log(list)
+        const newList = list.set(random, { name: 'Thanos', weapons: 'Infinite gloves' })
+        this.setState({
+            list: newList
+        })
         console.log('change')
     }
     render() {
-        console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
+        const { list } = this.state
         return (
-            <h1 className={style.red}>
-                <Button type="primary" >PageA</Button>
-                <div className={style2.green}>green</div>
-                <List list={[{ id: 123, name: 'manster', onChange: this.change }, { id: 456, name: 'Alex', onChange: this.change }]} />
-                <JsDemo look="lookProps"/>
-            </h1>)
+            <div>
+                <h3>immutable scu</h3>
+                <div>
+                <Button type="primary" onClick={this.change}>change Data</Button>
+                {
+                    list.map(({ name, weapons }, key) => {
+                        return <IdCard key={key} name={name} weapons={weapons} />
+                    })
+                }
+            </div>
+
+            <br/>
+            <br/>
+            <br/>
+            <br/><hr/>
+            <Immer/>
+            </div>
+            )
     }
 }
 export default PageA

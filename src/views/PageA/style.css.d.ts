@@ -1,1 +1,1 @@
-export const red: string;
+export const border: string;

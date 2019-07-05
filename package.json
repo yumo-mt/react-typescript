@@ -25,6 +25,8 @@
     "dependencies": {
         "antd": "^3.13.0",
         "bourbon": "^5.1.0",
+        "immer": "^2.0.0",
+        "immutable": "^4.0.0-rc.12",
         "lodash": "^4.17.11",
         "mobx": "^5.8.0",
         "mobx-react": "^5.4.3",
